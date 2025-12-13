@@ -12,6 +12,11 @@ dependencies = [
     "ruff>=0.14.9",
 ]
 
+[project.optional-dependencies]
+pydantic = [
+    "pydantic>=2.12.5",
+]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
@@ -22,4 +27,10 @@ dev = [
     "hypothesis-jsonschema>=0.23.1",
     "poethepoet>=0.38.0",
     "pytest>=9.0.2",
+    "ruff>=0.14.9",
 ]
+
+
+# Setup some POE tasks
+[tool.poe.tasks]
+unit_tests = "pytest tests/unit"

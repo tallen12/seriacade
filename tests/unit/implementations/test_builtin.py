@@ -4,14 +4,15 @@ from hypothesis import given, settings
 from hypothesis import strategies as st
 from hypothesis_jsonschema import from_schema
 
-from seriacade.json import JsonType, PythonJsonCodec
+from seriacade import PythonJsonCodec
+from seriacade.json import JsonType
 
 
 @given(
     from_schema({})
     | st.integers()
     | st.text()
-    | st.floats()
+    | st.floats(allow_nan=False, allow_infinity=False)
     | st.booleans()
     | st.none()
 )
@@ -20,14 +21,14 @@ def test_builtin_encoder(data: JsonType) -> None:
     """Trivial tests for builtin encoder."""
     codec = PythonJsonCodec()
     encoded = codec.encode_json(data)
-    assert encoded == json.dumps(data).encode("utf-8")
+    assert encoded == json.dumps(data, ensure_ascii=False).encode("utf-8")
 
 
 @given(
     from_schema({})
     | st.integers()
     | st.text()
-    | st.floats()
+    | st.floats(allow_nan=False, allow_infinity=False)
     | st.booleans()
     | st.none()
 )
@@ -43,7 +44,7 @@ def test_builtin_decoder(data: JsonType) -> None:
     from_schema({})
     | st.integers()
     | st.text()
-    | st.floats()
+    | st.floats(allow_nan=False, allow_infinity=False)
     | st.booleans()
     | st.none()
 )

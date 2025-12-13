@@ -19,7 +19,9 @@ class PythonJsonCodec(JsonCodecProtocol[JsonType]):
         Returns:
             bytes: JSON formatted string encoded as bytes.
         """
-        return json.dumps(obj).encode(self.encoding)
+        return json.dumps(obj, allow_nan=False, ensure_ascii=False).encode(
+            self.encoding
+        )
 
     def decode_json(self, data: bytes) -> JsonType:
         """Decode JSON formatted string as bytes to a python representation.
