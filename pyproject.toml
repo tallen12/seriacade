@@ -1,0 +1,25 @@
+[project]
+name = "seriacade"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Tyler Allen", email = "tallen12@users.noreply.github.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "basedpyright>=1.36.1",
+    "ruff>=0.14.9",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "hypothesis>=6.148.7",
+    "hypothesis-jsonschema>=0.23.1",
+    "poethepoet>=0.38.0",
+    "pytest>=9.0.2",
+]
