@@ -34,3 +34,47 @@ dev = [
 # Setup some POE tasks
 [tool.poe.tasks]
 unit_tests = "pytest tests/unit"
+
+
+[tool.ruff]
+line-length = 120 # Set your desired line length here
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 120
+
+[tool.ruff.lint]
+select = ["ALL", "D"]
+ignore = [
+    # Recommended disabled Rules https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+    "W191",
+    "E111",
+    "E114",
+    "E117",
+    "D206",
+    "D300",
+    "Q000",
+    "Q001",
+    "Q002",
+    "Q003",
+    "COM812",
+    "COM819",
+    "ISC002",
+    # Generic parameters
+    "UP046",
+    # Docstring related
+    "D100",
+    "D102",
+    "D104",
+    "D105",
+    "D107"
+]
+
+[tool.ruff.lint.flake8-annotations]
+suppress-dummy-args = true
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 120
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

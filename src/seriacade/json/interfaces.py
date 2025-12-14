@@ -8,7 +8,7 @@ T_contra = TypeVar("T_contra", contravariant=True)
 
 
 class JsonEncoderProtocol(Protocol[T_contra]):
-    """Protocol for a class to encode an object to JSON formatted bytes."""
+    """Protocol to encode an object to JSON formatted bytes."""
 
     def encode_json(self, obj: T_contra) -> bytes:
         """Encode an instance of the given type to bytes.
@@ -23,7 +23,7 @@ class JsonEncoderProtocol(Protocol[T_contra]):
 
 
 class JsonDecoderProtocol(Protocol[T_co]):
-    """Protocol for a class to decode from JSON formatted bytes to an instance of the given type."""
+    """Protocol to decode from JSON formatted bytes to an instance of the given type."""
 
     def decode_json(self, data: bytes) -> T_co:
         """Decode bytes to an instance of the given type.
@@ -38,7 +38,7 @@ class JsonDecoderProtocol(Protocol[T_co]):
 
 
 class JsonConverterProtocol(Protocol[T]):
-    """Protocol for a class to convert between a Python object that represents JSON and an instance of the given type."""
+    """Protocol to convert between a Python object that represents JSON and an instance of the given type."""
 
     def convert_to_json(self, data: T) -> JsonType:
         """Convert from an object of the given type to a Python representation of JSON.
@@ -84,9 +84,7 @@ class JsonCodecProtocol(
     """Protocol to define a full codec for an instance of the given type, implementing a JSON encoder and decoder."""
 
 
-class JsonCodecWithSchemaProtocol(
-    JsonCodecProtocol[T], JsonSchemaProviderProtocol[T], Protocol[T]
-):
+class JsonCodecWithSchemaProtocol(JsonCodecProtocol[T], JsonSchemaProviderProtocol[T], Protocol[T]):
     """A protocol to define a codec with a provided schema.
 
     Basically an intersection type of `JsonCodecProtocol` and `JsonSchemaProviderProtocol`,

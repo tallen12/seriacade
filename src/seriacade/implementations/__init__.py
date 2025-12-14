@@ -1,12 +1,10 @@
-import seriacade.implementations.builtin as builtin
-import seriacade.implementations.errors as errors
+from seriacade.implementations import builtin, errors
 
 try:
-    import seriacade.implementations.pydantic as pydantic
+    from seriacade.implementations import pydantic
 
     PydanticJsonCodec = pydantic.PydanticJsonCodec
 except ImportError:
     PydanticJsonCodec = errors.pydantic_not_installed_error
-    pass
 
 PythonJsonCodec = builtin.PythonJsonCodec

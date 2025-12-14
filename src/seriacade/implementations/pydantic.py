@@ -79,7 +79,7 @@ class PydanticJsonCodec(
     If the type is not derived from BaseMode load a PydanticAdapterJsonCodec and attempt to use a TypeAdapter.
     """
 
-    def __init__(self, model_type: type[AnyType]):
+    def __init__(self, model_type: type[AnyType]) -> None:
         self.codec: JsonCodecWithSchemaProtocol[AnyType]
         if issubclass(model_type, BaseModel):
             base_model_type = model_type
@@ -125,6 +125,7 @@ class PydanticJsonCodec(
 
         Args:
             data (AnyType): Instance of an object of a given type.
+
         Returns:
             JsonType: Python representation of json data.
         """

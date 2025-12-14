@@ -8,10 +8,10 @@ from seriacade.json.interfaces import (
 from seriacade.json.types import JsonType
 
 __all__: list[str] = [
-    "JsonType",
     "JsonCodecProtocol",
+    "JsonCodecWithSchemaProtocol",
     "JsonConverterProtocol",
     "JsonEncoderProtocol",
     "JsonSchemaProviderProtocol",
-    "JsonCodecWithSchemaProtocol",
+    "JsonType",
 ]

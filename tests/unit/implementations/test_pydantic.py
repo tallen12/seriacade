@@ -75,9 +75,7 @@ TEST_PARAMETRIZATION = list(
 @pytest.mark.parametrize("model, codec_type", TEST_PARAMETRIZATION)
 def test_pydantic_codec_encode_for_model(
     model: type[DataClassModel] | type[PydanticModel],
-    codec_type: type[PydanticJsonCodec]
-    | type[PydanticModelJsonCodec]
-    | type[PydanticAdapterJsonCodec],
+    codec_type: type[PydanticJsonCodec[DataClassModel | PydanticModel]],
 ):
     """Test to make sure encoding works for expected models."""
     codec = codec_type(model)
@@ -96,9 +94,7 @@ def test_pydantic_codec_encode_for_model(
 )
 def test_pydantic_codec_decode_for_model(
     model: type[DataClassModel] | type[PydanticModel],
-    codec_type: type[PydanticJsonCodec]
-    | type[PydanticModelJsonCodec]
-    | type[PydanticAdapterJsonCodec],
+    codec_type: type[PydanticJsonCodec[DataClassModel | PydanticModel]],
 ):
     """Test to make sure decoding works for expected models."""
     codec = codec_type(model)
@@ -113,9 +109,7 @@ def test_pydantic_codec_decode_for_model(
 @pytest.mark.parametrize("model, codec_type", TEST_PARAMETRIZATION)
 def test_pydantic_codec_convert_to_json_for_model(
     model: type[DataClassModel] | type[PydanticModel],
-    codec_type: type[PydanticJsonCodec]
-    | type[PydanticModelJsonCodec]
-    | type[PydanticAdapterJsonCodec],
+    codec_type: type[PydanticJsonCodec[DataClassModel | PydanticModel]],
 ):
     """Test to make sure convert to json works for expected models."""
     codec = codec_type(model)
@@ -129,9 +123,7 @@ def test_pydantic_codec_convert_to_json_for_model(
 @pytest.mark.parametrize("model, codec_type", TEST_PARAMETRIZATION)
 def test_pydantic_codec_convert_from_json(
     model: type[DataClassModel] | type[PydanticModel],
-    codec_type: type[PydanticJsonCodec]
-    | type[PydanticModelJsonCodec]
-    | type[PydanticAdapterJsonCodec],
+    codec_type: type[PydanticJsonCodec[DataClassModel | PydanticModel]],
 ):
     """Test to make sure convert from json works for expected models."""
     codec = codec_type(model)
