@@ -448,6 +448,7 @@ pydantic = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "basedpyright" },
     { name = "hypothesis" },
     { name = "hypothesis-jsonschema" },
     { name = "poethepoet" },
@@ -465,6 +466,7 @@ provides-extras = ["pydantic"]
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "basedpyright", specifier = ">=1.36.1" },
     { name = "hypothesis", specifier = ">=6.148.7" },
     { name = "hypothesis-jsonschema", specifier = ">=0.23.1" },
     { name = "poethepoet", specifier = ">=0.38.0" },

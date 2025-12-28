@@ -23,6 +23,7 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
+    "basedpyright>=1.36.1",
     "hypothesis>=6.148.7",
     "hypothesis-jsonschema>=0.23.1",
     "poethepoet>=0.38.0",
@@ -34,7 +35,9 @@ dev = [
 # Setup some POE tasks
 [tool.poe.tasks]
 unit_tests = "pytest tests/unit"
-
+lint = "ruff check"
+format = "ruff format"
+typecheck = "basedpyright check"
 
 [tool.ruff]
 line-length = 120 # Set your desired line length here

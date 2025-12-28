@@ -1,4 +1,4 @@
-from typing import Protocol, TypeVar
+from typing import Protocol, TypeVar, runtime_checkable
 
 from seriacade.json.types import JsonType
 
@@ -7,6 +7,7 @@ T_co = TypeVar("T_co", covariant=True)
 T_contra = TypeVar("T_contra", contravariant=True)
 
 
+@runtime_checkable
 class JsonEncoderProtocol(Protocol[T_contra]):
     """Protocol to encode an object to JSON formatted bytes."""
 
@@ -22,6 +23,7 @@ class JsonEncoderProtocol(Protocol[T_contra]):
         ...
 
 
+@runtime_checkable
 class JsonDecoderProtocol(Protocol[T_co]):
     """Protocol to decode from JSON formatted bytes to an instance of the given type."""
 
@@ -37,6 +39,7 @@ class JsonDecoderProtocol(Protocol[T_co]):
         ...
 
 
+@runtime_checkable
 class JsonConverterProtocol(Protocol[T]):
     """Protocol to convert between a Python object that represents JSON and an instance of the given type."""
 
@@ -63,6 +66,7 @@ class JsonConverterProtocol(Protocol[T]):
         ...
 
 
+@runtime_checkable
 class JsonSchemaProviderProtocol(Protocol[T_co]):
     """A protocol for a class that can generate a JSON schema for the given type."""
 
@@ -75,6 +79,7 @@ class JsonSchemaProviderProtocol(Protocol[T_co]):
         ...
 
 
+@runtime_checkable
 class JsonCodecProtocol(
     JsonEncoderProtocol[T],
     JsonDecoderProtocol[T],
@@ -84,6 +89,7 @@ class JsonCodecProtocol(
     """Protocol to define a full codec for an instance of the given type, implementing a JSON encoder and decoder."""
 
 
+@runtime_checkable
 class JsonCodecWithSchemaProtocol(JsonCodecProtocol[T], JsonSchemaProviderProtocol[T], Protocol[T]):
     """A protocol to define a codec with a provided schema.
 

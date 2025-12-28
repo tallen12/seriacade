@@ -1,3 +1,5 @@
+from typing import TypeVar, override
+
 from pydantic import BaseModel, TypeAdapter
 
 from seriacade.json import (
@@ -7,7 +9,6 @@ from seriacade.json import (
     JsonSchemaProviderProtocol,
     JsonType,
 )
-from seriacade.json.interfaces import TypeVar
 
 PydanticType = TypeVar("PydanticType", bound=BaseModel)
 AnyType = TypeVar("AnyType")
@@ -21,20 +22,25 @@ class PydanticModelJsonCodec(
     """Provides a json codec implementation for arbitrary pydantic models."""
 
     def __init__(self, model_type: type[PydanticType]) -> None:
-        self.model_type = model_type
+        self.model_type: type[PydanticType] = model_type
 
+    @override
     def encode_json(self, obj: PydanticType) -> bytes:
         return obj.model_dump_json().encode("utf-8")
 
+    @override
     def decode_json(self, data: bytes) -> PydanticType:
         return self.model_type.model_validate_json(data)
 
+    @override
     def convert_from_json(self, data: JsonType) -> PydanticType:
         return self.model_type.model_validate(data)
 
+    @override
     def convert_to_json(self, data: PydanticType) -> JsonType:
         return data.model_dump()
 
+    @override
     def json_schema(self) -> JsonType:
         return self.model_type.model_json_schema()
 
@@ -50,20 +56,25 @@ class PydanticAdapterJsonCodec(
     """
 
     def __init__(self, model_type: type[AnyType]) -> None:
-        self.model_type = TypeAdapter(model_type)
+        self.model_type: TypeAdapter[AnyType] = TypeAdapter(model_type)
 
+    @override
     def encode_json(self, obj: AnyType) -> bytes:
         return self.model_type.dump_json(obj)
 
+    @override
     def decode_json(self, data: bytes) -> AnyType:
         return self.model_type.validate_json(data)
 
+    @override
     def convert_from_json(self, data: JsonType) -> AnyType:
         return self.model_type.validate_python(data)
 
+    @override
     def convert_to_json(self, data: AnyType) -> JsonType:
         return self.model_type.dump_python(data)
 
+    @override
     def json_schema(self) -> JsonType:
         return self.model_type.json_schema()
 
@@ -87,6 +98,7 @@ class PydanticJsonCodec(
         else:
             self.codec = PydanticAdapterJsonCodec(model_type)
 
+    @override
     def encode_json(self, obj: AnyType) -> bytes:
         """Encode obj to bytes using pydantic codecs.
 
@@ -98,6 +110,7 @@ class PydanticJsonCodec(
         """
         return self.codec.encode_json(obj)
 
+    @override
     def decode_json(self, data: bytes) -> AnyType:
         """Decode JSON formatted string as bytes to a python representation.
 
@@ -109,6 +122,7 @@ class PydanticJsonCodec(
         """
         return self.codec.decode_json(data)
 
+    @override
     def convert_from_json(self, data: JsonType) -> AnyType:
         """Convert from a python representation of a JSON to an instance of the given type.
 
@@ -120,6 +134,7 @@ class PydanticJsonCodec(
         """
         return self.codec.convert_from_json(data)
 
+    @override
     def convert_to_json(self, data: AnyType) -> JsonType:
         """Convert from an instance of the given type to a python representation of a JSON.
 
@@ -131,6 +146,7 @@ class PydanticJsonCodec(
         """
         return self.codec.convert_to_json(data)
 
+    @override
     def json_schema(self) -> JsonType:
         """Generate a json schema for this codec.
 

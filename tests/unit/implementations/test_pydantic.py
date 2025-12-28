@@ -51,6 +51,8 @@ def test_pydantic_codec_decode_with_builtin_types(data: JsonType) -> None:
 
 
 class PydanticModel(BaseModel):
+    """Pydantic model for testing."""
+
     integer_val: int
     text: str
     booleans: bool
@@ -59,43 +61,41 @@ class PydanticModel(BaseModel):
 
 @dataclass
 class DataClassModel:
+    """Dataclass model for testing."""
+
     integer_val: int
     text: str
     booleans: bool
     optional: str | None
 
 
-TEST_PARAMETRIZATION = list(
-    itertools.product([PydanticModel], [PydanticJsonCodec, PydanticModelJsonCodec])
-) + list(
+TEST_PARAMETRIZATION = list(itertools.product([PydanticModel], [PydanticJsonCodec, PydanticModelJsonCodec])) + list(
     itertools.product([DataClassModel], [PydanticJsonCodec, PydanticAdapterJsonCodec])
 )
 
 
-@pytest.mark.parametrize("model, codec_type", TEST_PARAMETRIZATION)
+@pytest.mark.parametrize(("model", "codec_type"), TEST_PARAMETRIZATION)
 def test_pydantic_codec_encode_for_model(
     model: type[DataClassModel] | type[PydanticModel],
     codec_type: type[PydanticJsonCodec[DataClassModel | PydanticModel]],
-):
+) -> None:
     """Test to make sure encoding works for expected models."""
     codec = codec_type(model)
     data = model(integer_val=1, text="test", booleans=True, optional=None)
     encoded: bytes = codec.encode_json(data)
-    expected_encoded = (
-        """{"integer_val":1,"text":"test","booleans":true,"optional":null}"""
-    )
+    expected_encoded = """{"integer_val":1,"text":"test","booleans":true,"optional":null}"""
     assert isinstance(encoded, bytes)
     assert encoded == expected_encoded.encode("utf-8")
 
 
 @pytest.mark.parametrize(
-    "model, codec_type",
+    ("model", "codec_type"),
     TEST_PARAMETRIZATION,
 )
 def test_pydantic_codec_decode_for_model(
     model: type[DataClassModel] | type[PydanticModel],
     codec_type: type[PydanticJsonCodec[DataClassModel | PydanticModel]],
-):
+) -> None:
     """Test to make sure decoding works for expected models."""
     codec = codec_type(model)
     data = model(integer_val=1, text="test", booleans=True, optional=None)
@@ -106,11 +106,11 @@ def test_pydantic_codec_decode_for_model(
     assert decoded == data
 
 
-@pytest.mark.parametrize("model, codec_type", TEST_PARAMETRIZATION)
+@pytest.mark.parametrize(("model", "codec_type"), TEST_PARAMETRIZATION)
 def test_pydantic_codec_convert_to_json_for_model(
     model: type[DataClassModel] | type[PydanticModel],
     codec_type: type[PydanticJsonCodec[DataClassModel | PydanticModel]],
-):
+) -> None:
     """Test to make sure convert to json works for expected models."""
     codec = codec_type(model)
     data = model(integer_val=1, text="test", booleans=True, optional=None)
@@ -120,15 +120,15 @@ def test_pydantic_codec_convert_to_json_for_model(
     assert converted == json_data
 
 
-@pytest.mark.parametrize("model, codec_type", TEST_PARAMETRIZATION)
+@pytest.mark.parametrize(("model", "codec_type"), TEST_PARAMETRIZATION)
 def test_pydantic_codec_convert_from_json(
     model: type[DataClassModel] | type[PydanticModel],
     codec_type: type[PydanticJsonCodec[DataClassModel | PydanticModel]],
-):
+) -> None:
     """Test to make sure convert from json works for expected models."""
     codec = codec_type(model)
     data = model(integer_val=1, text="test", booleans=True, optional=None)
-    json_data = {"integer_val": 1, "text": "test", "booleans": True, "optional": None}
+    json_data: JsonType = {"integer_val": 1, "text": "test", "booleans": True, "optional": None}
     converted = codec.convert_from_json(json_data)
 
     assert isinstance(converted, model)
